@@ -6,7 +6,7 @@ import sys
 from cid import make_cid
 import multihash, multibase
 
-version = '0.2'
+version = '1.0'
 
 
 def main():
