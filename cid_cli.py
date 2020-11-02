@@ -4,8 +4,9 @@
 
 import sys
 from cid import make_cid
+import multihash, multibase
 
-version = '0.1'
+version = '0.2'
 
 
 def main():
@@ -21,6 +22,14 @@ def main():
         print(e, file=sys.stderr)
         sys.exit(1)
 
-    print('version:', c.version)
-    print('  codec:', c.codec)
-    print('    hex:', c.multihash.hex())
+    if c.version == 0:
+        mb_codec = 'base58btc'
+    else:
+        mb_codec = multibase.get_codec(args.cid).encoding
+    mh = multihash.decode(c.multihash)
+    print(f'{mb_codec} - cidv{c.version} - {c.codec} - {mh.name}-{len(mh.digest)*8}-{mh.digest.hex()}')
+    # print(f'// see also https://cid.ipfs.io/#{args.cid}', file=sys.stderr)
+
+
+if __name__ == '__main__':
+    main()
